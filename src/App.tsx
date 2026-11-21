@@ -402,7 +402,7 @@ export default function App() {
     triggerToast('Journal entry removed.');
   };
 
-  const handleSendChat = async (customText) => {
+  const handleSendChat = async (customText?: string) => {
     const textToSend = (typeof customText === 'string' ? customText : chatInput).trim();
     if (!textToSend || isAiTyping) return;
 
