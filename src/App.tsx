@@ -998,3 +998,1003 @@ export default function App() {
                       </p>
                     </div>
                   </div>
+
+                  <div className="pt-2 flex items-center justify-between">
+                    <button
+                      type="button"
+                      onClick={() => setOnboardingStep(2)}
+                      className="px-4 py-2.5 rounded-xl text-xs font-semibold text-[#686273] hover:text-[#2D2A32]"
+                    >
+                      ← Back
+                    </button>
+                    <button
+                      type="submit"
+                      className="inline-flex items-center gap-2 px-7 py-3.5 rounded-2xl bg-[#2D2A32] hover:bg-[#413D48] text-white text-sm font-medium transition-all shadow-md"
+                    >
+                      <Sparkles className="w-4 h-4 text-[#E6E0F8]" />
+                      <span>Enter My Sanctuary</span>
+                    </button>
+                  </div>
+                </div>
+              )}
+            </form>
+          </div>
+        </main>
+
+        {/* Ethical Footer Note */}
+        <footer className="w-full max-w-4xl mx-auto px-6 py-5 text-center text-[11px] text-[#686273]">
+          Your Space. Your Pace. Mindspace is a private wellness & self-reflection tool, not a medical diagnostic service.
+        </footer>
+      </div>
+    );
+  }
+
+  // ============================================================================
+  // MAIN AUTHENTICATED / PROFILED SANCTUARY EXPERIENCE
+  // ============================================================================
+  return (
+    <div className="min-h-screen bg-[#FAF9FC] text-[#2A2630] flex flex-col md:flex-row selection:bg-[#E6E0F8] selection:text-[#2A2630]">
+      {/* Google Fonts & Custom Soft Editorial Styles */}
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+        
+        body {
+          font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+          background-color: #FAF9FC;
+        }
+        .font-editorial {
+          font-family: 'Instrument Serif', Georgia, serif;
+        }
+        .glass-card {
+          background: rgba(255, 255, 255, 0.85);
+          backdrop-filter: blur(12px);
+          border: 1px solid #ECE8F2;
+          box-shadow: 0 10px 30px -12px rgba(107, 91, 149, 0.08);
+        }
+        .soft-gradient-banner {
+          background: linear-gradient(135deg, #F3EFFB 0%, #FDF2F5 55%, #FAF9FC 100%);
+        }
+        @keyframes pulseSlow {
+          0%, 100% { opacity: 0.55; }
+          50% { opacity: 0.9; }
+        }
+        .animate-pulse-slow {
+          animation: pulseSlow 4s ease-in-out infinite;
+        }
+      `}</style>
+
+      {/* Subtle Floating Toast */}
+      {toastMessage && (
+        <div className="fixed top-5 right-5 z-50 flex items-center gap-2.5 bg-[#2A2630] text-white px-4 py-3 rounded-2xl shadow-xl text-sm animate-fade-in">
+          <Sparkles className="w-4 h-4 text-[#E6E0F8]" />
+          <span>{toastMessage}</span>
+        </div>
+      )}
+
+      {/* Desktop Left Sidebar */}
+      <aside className="hidden md:flex md:w-72 md:flex-col md:fixed md:inset-y-0 bg-white/90 border-r border-[#ECE8F2] px-6 py-8 justify-between z-30">
+        <div>
+          {/* Brand Logo */}
+          <div className="flex items-center gap-3 mb-2">
+            <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-[#8E7CC3] to-[#E8B4BC] flex items-center justify-center text-white shadow-sm">
+              <Sparkles className="w-5 h-5" />
+            </div>
+            <div>
+              <h1 className="font-editorial text-3xl tracking-tight text-[#2A2630] leading-none">
+                Mindspace
+              </h1>
+              <p className="text-[11px] uppercase tracking-[0.16em] text-[#686273] mt-1">
+                Lavender · Calm · Clarity
+              </p>
+            </div>
+          </div>
+
+          <p className="text-xs text-[#686273] italic mt-3 mb-8 pl-1">
+            "A safe space for your mind."
+          </p>
+
+          {/* Navigation Links */}
+          <nav className="space-y-1.5">
+            {navItems.map((item) => {
+              const Icon = item.icon;
+              const isActive = activeTab === item.id;
+              return (
+                <button
+                  key={item.id}
+                  onClick={() => setActiveTab(item.id)}
+                  className={`w-full flex items-center gap-3.5 px-4 py-3.5 rounded-2xl text-sm font-medium transition-all duration-200 ${
+                    isActive
+                      ? 'bg-[#E6E0F8]/75 text-[#4A3B75] shadow-xs font-semibold'
+                      : 'text-[#686273] hover:bg-[#FAF9FC] hover:text-[#2A2630]'
+                  }`}
+                >
+                  <Icon className={`w-4.5 h-4.5 ${isActive ? 'text-[#6B5B95]' : 'text-[#8D8699]'}`} />
+                  <span>{item.label}</span>
+                  {item.id === 'companion' && (
+                    <span className="ml-auto text-[10px] px-2 py-0.5 rounded-full bg-[#F9E8EC] text-[#9E5A6B] font-semibold">
+                      AI
+                    </span>
+                  )}
+                </button>
+              );
+            })}
+          </nav>
+        </div>
+
+        {/* Ethical Disclaimer & Urgent Support Card */}
+        <div className="space-y-3">
+          {/* Active Profile Pill */}
+          <button
+            onClick={() => setActiveTab('profile')}
+            className="w-full p-3 rounded-2xl bg-white hover:bg-[#FAF8FD] border border-[#ECE8F2] flex items-center gap-3 text-left transition-all"
+          >
+            <div
+              className={`w-9 h-9 rounded-xl bg-gradient-to-br ${activeAura.gradient} flex items-center justify-center text-white font-editorial text-xl shrink-0`}
+            >
+              {userProfile.name[0]?.toUpperCase()}
+            </div>
+            <div className="min-w-0 flex-1">
+              <p className="text-xs font-semibold text-[#2A2630] truncate">{userProfile.name}</p>
+              <p className="text-[10px] text-[#686273] truncate">{activeAura.name}</p>
+            </div>
+            <Sliders className="w-3.5 h-3.5 text-[#8D8699] shrink-0" />
+          </button>
+
+          <div className="p-4 rounded-2xl bg-gradient-to-br from-[#F7F4FC] to-[#FDF4F6] border border-[#ECE8F2]">
+            <p className="text-xs font-semibold text-[#2A2630] mb-1">
+              Your Space. Your Pace.
+            </p>
+            <p className="text-[11px] leading-relaxed text-[#686273]">
+              Mindspace is a wellness & self-reflection tool, not a medical diagnostic service.
+            </p>
+            <button
+              onClick={() => setShowSafetyModal(true)}
+              className="mt-2.5 inline-flex items-center gap-1.5 text-xs font-semibold text-[#6B5B95] hover:text-[#4A3B75] transition-colors"
+            >
+              <ShieldAlert className="w-3.5 h-3.5" />
+              <span>Support & Helplines</span>
+            </button>
+          </div>
+        </div>
+      </aside>
+
+      {/* Mobile Top Header */}
+      <header className="md:hidden sticky top-0 z-30 bg-white/90 backdrop-blur-md border-b border-[#ECE8F2] px-4 py-3.5 flex items-center justify-between">
+        <div className="flex items-center gap-2.5">
+          <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-[#8E7CC3] to-[#E8B4BC] flex items-center justify-center text-white">
+            <Sparkles className="w-4 h-4" />
+          </div>
+          <span className="font-editorial text-2xl text-[#2A2630]">Mindspace</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => setShowSafetyModal(true)}
+            className="text-xs font-medium px-3 py-1.5 rounded-full bg-[#F9E8EC] text-[#8E4B5C] flex items-center gap-1.5"
+          >
+            <ShieldAlert className="w-3.5 h-3.5" />
+            <span>Support</span>
+          </button>
+          <button
+            onClick={() => setActiveTab('profile')}
+            className={`w-8 h-8 rounded-full bg-gradient-to-br ${activeAura.gradient} text-white font-editorial text-lg flex items-center justify-center shadow-2xs`}
+            title="Your Profile"
+          >
+            {userProfile.name[0]?.toUpperCase()}
+          </button>
+        </div>
+      </header>
+
+      {/* Main Content Area */}
+      <main className="flex-1 md:pl-72 pb-24 md:pb-12">
+        <div className="max-w-5xl mx-auto px-4 sm:px-8 pt-6 sm:pt-10">
+          {/* ================= TAB 1: DASHBOARD (SANCTUARY) ================= */}
+          {activeTab === 'dashboard' && (
+            <div className="space-y-6">
+              {/* Hero Welcome & Rotating Affirmation */}
+              <section className="soft-gradient-banner rounded-3xl p-6 sm:p-8 border border-[#ECE8F2] relative overflow-hidden">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                  <div className="max-w-2xl">
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/80 border border-[#ECE8F2] text-xs font-medium text-[#6B5B95] mb-3">
+                      <Calendar className="w-3.5 h-3.5" />
+                      <span>
+                        {new Date().toLocaleDateString('en-US', {
+                          weekday: 'long',
+                          month: 'long',
+                          day: 'numeric'
+                        })}
+                      </span>
+                    </div>
+                    <h2 className="font-editorial text-3xl sm:text-4xl text-[#2A2630] leading-tight">
+                      {getTimeGreeting()}, {userProfile.name}.
+                    </h2>
+                    <p className="mt-2.5 text-sm sm:text-base text-[#544E5E] leading-relaxed italic">
+                      “{DAILY_AFFIRMATIONS[affirmationIdx]}”
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => setAffirmationIdx((prev) => (prev + 1) % DAILY_AFFIRMATIONS.length)}
+                    className="self-start sm:self-center inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white/90 hover:bg-white border border-[#ECE8F2] text-xs font-medium text-[#686273] hover:text-[#2A2630] transition-all shrink-0"
+                    title="New gentle affirmation"
+                  >
+                    <RefreshCw className="w-3.5 h-3.5" />
+                    <span>New Affirmation</span>
+                  </button>
+                </div>
+              </section>
+
+              {/* Row 1: Mood Check-in + Weekly Rhythm */}
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                {/* Daily Mood Check-in Card */}
+                <div className="lg:col-span-7 glass-card rounded-3xl p-6">
+                  <div className="flex items-center justify-between mb-1">
+                    <h3 className="font-editorial text-2xl text-[#2A2630]">
+                      How is your mind feeling right now?
+                    </h3>
+                  </div>
+                  <p className="text-xs text-[#686273] mb-5">
+                    No judgment—just noticing where you are today builds emotional clarity.
+                  </p>
+
+                  <form onSubmit={handleLogMood} className="space-y-4">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
+                      {MOOD_OPTIONS.map((mood) => {
+                        const Icon = mood.icon;
+                        const active = selectedMoodId === mood.id;
+                        return (
+                          <button
+                            type="button"
+                            key={mood.id}
+                            onClick={() => setSelectedMoodId(mood.id)}
+                            className={`flex flex-col items-start p-3.5 rounded-2xl border text-left transition-all ${
+                              active
+                                ? 'border-[#8E7CC3] bg-[#F4F0FC] shadow-xs ring-2 ring-[#8E7CC3]/20'
+                                : 'border-[#ECE8F2] bg-white/70 hover:bg-white'
+                            }`}
+                          >
+                            <div
+                              className="w-8 h-8 rounded-xl flex items-center justify-center mb-2"
+                              style={{ backgroundColor: mood.bg, color: mood.color }}
+                            >
+                              <Icon className="w-4 h-4" />
+                            </div>
+                            <span className="text-sm font-semibold text-[#2A2630]">{mood.label}</span>
+                            <span className="text-[11px] text-[#686273] mt-0.5">{mood.desc}</span>
+                          </button>
+                        );
+                      })}
+                    </div>
+
+                    <div className="flex flex-col sm:flex-row gap-2.5 pt-1">
+                      <input
+                        type="text"
+                        value={moodNote}
+                        onChange={(e) => setMoodNote(e.target.value)}
+                        placeholder="Optional: Add a 1-line note about what's influencing your mood..."
+                        className="flex-1 px-4 py-2.5 rounded-xl bg-[#FAF9FC] border border-[#ECE8F2] text-sm text-[#2A2630] placeholder:text-[#9A94A6] focus:outline-none focus:border-[#8E7CC3]"
+                      />
+                      <button
+                        type="submit"
+                        className="px-5 py-2.5 rounded-xl bg-[#6B5B95] hover:bg-[#594A80] text-white text-sm font-medium transition-colors shrink-0 shadow-xs"
+                      >
+                        Log Check-in
+                      </button>
+                    </div>
+                  </form>
+                </div>
+
+                {/* Weekly Emotional Rhythm */}
+                <div className="lg:col-span-5 glass-card rounded-3xl p-6 flex flex-col justify-between">
+                  <div>
+                    <div className="flex items-center justify-between mb-1">
+                      <h3 className="font-editorial text-2xl text-[#2A2630]">
+                        Weekly Emotional Rhythm
+                      </h3>
+                      <TrendingUp className="w-4 h-4 text-[#8E7CC3]" />
+                    </div>
+                    <p className="text-xs text-[#686273] mb-6">
+                      Your recent check-ins at a glance.
+                    </p>
+
+                    {/* Visual Mood Bars */}
+                    <div className="grid grid-cols-5 gap-2.5 items-end h-40 pt-4 px-1">
+                      {moodHistory.slice(-5).map((entry) => {
+                        const moodObj = MOOD_OPTIONS.find((m) => m.id === entry.moodId) || MOOD_OPTIONS[0];
+                        const heightPct = `${moodObj.score * 18 + 10}%`;
+                        return (
+                          <div key={entry.id} className="flex flex-col items-center h-full justify-end group relative">
+                            <span className="text-[10px] font-medium text-[#686273] mb-1.5 opacity-85">
+                              {moodObj.label}
+                            </span>
+                            <div
+                              className="w-full max-w-[42px] rounded-t-2xl rounded-b-lg transition-all duration-500 flex items-end justify-center pb-2"
+                              style={{
+                                height: heightPct,
+                                backgroundColor: moodObj.bg,
+                                border: `1px solid ${moodObj.color}40`
+                              }}
+                              title={`${entry.day}: ${moodObj.label} — ${entry.note}`}
+                            >
+                              <div
+                                className="w-2.5 h-2.5 rounded-full"
+                                style={{ backgroundColor: moodObj.color }}
+                              />
+                            </div>
+                            <span className="text-xs font-semibold text-[#2A2630] mt-2">
+                              {entry.day}
+                            </span>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  {/* Latest Check-in Note Preview */}
+                  {moodHistory.length > 0 && (
+                    <div className="mt-5 pt-4 border-t border-[#ECE8F2] text-xs text-[#686273]">
+                      <span className="font-semibold text-[#2A2630]">Latest note: </span>
+                      “{moodHistory[moodHistory.length - 1].note}”
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Row 2: Daily Self-Care Tracker + Personalized Insight */}
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                {/* Self-Care Micro-Habits */}
+                <div className="lg:col-span-7 glass-card rounded-3xl p-6">
+                  <div className="flex items-center justify-between mb-1">
+                    <h3 className="font-editorial text-2xl text-[#2A2630]">
+                      Gentle Self-Care Tracker
+                    </h3>
+                    <span className="text-xs font-semibold px-3 py-1 rounded-full bg-[#F2EEFB] text-[#6B5B95]">
+                      {completedHabitsCount}/{habits.length} completed ({habitProgress}%)
+                    </span>
+                  </div>
+                  <p className="text-xs text-[#686273] mb-4">
+                    Small, consistent anchors to care for your body and mind.
+                  </p>
+
+                  {/* Progress Bar */}
+                  <div className="w-full h-2 rounded-full bg-[#F1EDF7] overflow-hidden mb-5">
+                    <div
+                      className="h-full rounded-full bg-gradient-to-r from-[#8E7CC3] to-[#E8B4BC] transition-all duration-500"
+                      style={{ width: `${habitProgress}%` }}
+                    />
+                  </div>
+
+                  <div className="space-y-2 mb-4">
+                    {habits.map((habit) => (
+                      <button
+                        key={habit.id}
+                        onClick={() => toggleHabit(habit.id)}
+                        className={`w-full flex items-center justify-between p-3 rounded-2xl border text-left transition-all ${
+                          habit.completed
+                            ? 'bg-[#FAF8FD] border-[#E6E0F8] text-[#8E8799]'
+                            : 'bg-white border-[#ECE8F2] text-[#2A2630] hover:border-[#D4C9EE]'
+                        }`}
+                      >
+                        <div className="flex items-center gap-3">
+                          {habit.completed ? (
+                            <CheckCircle2 className="w-5 h-5 text-[#8E7CC3] shrink-0" />
+                          ) : (
+                            <Circle className="w-5 h-5 text-[#C5BED4] shrink-0" />
+                          )}
+                          <span className={`text-sm ${habit.completed ? 'line-through' : 'font-medium'}`}>
+                            {habit.label}
+                          </span>
+                        </div>
+                        <span className="text-[10px] uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-[#FAF9FC] border border-[#ECE8F2] text-[#686273]">
+                          {habit.category}
+                        </span>
+                      </button>
+                    ))}
+                  </div>
+
+                  {/* Add Habit Input */}
+                  <form onSubmit={handleAddHabit} className="flex gap-2">
+                    <input
+                      type="text"
+                      value={newHabitText}
+                      onChange={(e) => setNewHabitText(e.target.value)}
+                      placeholder="Add a tiny self-care ritual (e.g., Stretch for 2 mins)..."
+                      className="flex-1 px-3.5 py-2 rounded-xl bg-[#FAF9FC] border border-[#ECE8F2] text-xs text-[#2A2630] focus:outline-none focus:border-[#8E7CC3]"
+                    />
+                    <button
+                      type="submit"
+                      className="inline-flex items-center gap-1 px-3.5 py-2 rounded-xl bg-[#F2EEFB] hover:bg-[#E6E0F8] text-[#5B4B8A] text-xs font-semibold transition-colors"
+                    >
+                      <Plus className="w-3.5 h-3.5" />
+                      <span>Add</span>
+                    </button>
+                  </form>
+                </div>
+
+                {/* Personalized AI Insight Card */}
+                <div className="lg:col-span-5 rounded-3xl p-6 bg-gradient-to-b from-[#F5F0FC] to-[#FDF2F5] border border-[#E6DFEF] flex flex-col justify-between">
+                  <div>
+                    <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/90 text-[#6B5B95] text-xs font-semibold mb-4">
+                      <Sparkles className="w-3.5 h-3.5" />
+                      <span>{personalizedInsight.badge}</span>
+                    </div>
+                    <h3 className="font-editorial text-2xl text-[#2A2630] leading-snug mb-3">
+                      {personalizedInsight.headline}
+                    </h3>
+                    <p className="text-sm text-[#544E5E] leading-relaxed">
+                      {personalizedInsight.body}
+                    </p>
+                  </div>
+
+                  <div className="mt-6 pt-4 border-t border-[#E6DFEF]/80 flex flex-wrap gap-2.5">
+                    <button
+                      onClick={() => setActiveTab(personalizedInsight.ctaTab)}
+                      className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#2A2630] hover:bg-[#3E3847] text-white text-xs font-medium transition-colors"
+                    >
+                      <span>{personalizedInsight.ctaText}</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </button>
+                    <button
+                      onClick={() => setActiveTab('companion')}
+                      className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white/90 hover:bg-white text-[#2A2630] border border-[#ECE8F2] text-xs font-medium transition-colors"
+                    >
+                      <span>Chat with AI Companion</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* ================= TAB 2: AI EMOTIONAL COMPANION ================= */}
+          {activeTab === 'companion' && (
+            <div className="glass-card rounded-3xl overflow-hidden flex flex-col h-[calc(100vh-11rem)] md:h-[calc(100vh-6rem)]">
+              {/* Companion Header */}
+              <div className="px-6 py-4 bg-gradient-to-r from-[#F5F1FC] to-[#FDF3F6] border-b border-[#ECE8F2] flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-2xl bg-white border border-[#E6E0F8] flex items-center justify-center text-[#6B5B95] shadow-2xs">
+                    <MessageCircleHeart className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <h2 className="font-editorial text-2xl text-[#2A2630] leading-none">
+                        AI Emotional Companion
+                      </h2>
+                      <span className="inline-block w-2 h-2 rounded-full bg-emerald-400" />
+                    </div>
+                    <p className="text-xs text-[#686273] mt-1">
+                      Judgment-free reflection · Private & supportive
+                    </p>
+                  </div>
+                </div>
+
+                <button
+                  onClick={() => setShowSafetyModal(true)}
+                  className="text-xs font-medium px-3 py-1.5 rounded-xl bg-white/80 hover:bg-white border border-[#ECE8F2] text-[#8E4B5C] flex items-center gap-1.5 transition-colors"
+                >
+                  <ShieldAlert className="w-3.5 h-3.5" />
+                  <span className="hidden sm:inline">Need urgent support?</span>
+                </button>
+              </div>
+
+              {/* Chat Messages Stream */}
+              <div className="flex-1 overflow-y-auto p-5 sm:p-6 space-y-4 bg-[#FAF9FC]/60">
+                {chatMessages.map((msg) => {
+                  const isUser = msg.sender === 'user';
+                  return (
+                    <div
+                      key={msg.id}
+                      className={`flex flex-col ${isUser ? 'items-end' : 'items-start'}`}
+                    >
+                      <div
+                        className={`max-w-[85%] sm:max-w-[75%] px-4 py-3.5 rounded-2xl text-sm leading-relaxed whitespace-pre-line ${
+                          isUser
+                            ? 'bg-[#6B5B95] text-white rounded-br-sm shadow-xs'
+                            : 'bg-white border border-[#ECE8F2] text-[#2A2630] rounded-bl-sm shadow-2xs'
+                        }`}
+                      >
+                        {msg.text}
+                      </div>
+                      <span className="text-[10px] text-[#8E8799] mt-1 px-1">
+                        {isUser ? 'You' : 'Mindspace Companion'} · {msg.time}
+                      </span>
+                    </div>
+                  );
+                })}
+
+                {isAiTyping && (
+                  <div className="flex items-start">
+                    <div className="px-4 py-3 rounded-2xl rounded-bl-sm bg-white border border-[#ECE8F2] text-xs text-[#686273] flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#8E7CC3] animate-bounce" />
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#8E7CC3] animate-bounce [animation-delay:150ms]" />
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#8E7CC3] animate-bounce [animation-delay:300ms]" />
+                      <span className="ml-1">Listening thoughtfully...</span>
+                    </div>
+                  </div>
+                )}
+                <div ref={chatEndRef} />
+              </div>
+
+              {/* Quick Starter Chips */}
+              <div className="px-5 py-2.5 bg-white border-t border-[#ECE8F2] flex items-center gap-2 overflow-x-auto no-scrollbar">
+                <span className="text-[11px] font-medium text-[#8E8799] shrink-0">Prompts:</span>
+                {COMPANION_STARTERS.map((starter, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => handleSendChat(starter)}
+                    disabled={isAiTyping}
+                    className="text-xs px-3 py-1.5 rounded-full bg-[#F6F3FB] hover:bg-[#E6E0F8] text-[#5B4B8A] transition-colors shrink-0 disabled:opacity-50"
+                  >
+                    {starter}
+                  </button>
+                ))}
+              </div>
+
+              {/* Input Box */}
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  handleSendChat();
+                }}
+                className="p-4 bg-white border-t border-[#ECE8F2] flex items-center gap-3"
+              >
+                <input
+                  type="text"
+                  value={chatInput}
+                  onChange={(e) => setChatInput(e.target.value)}
+                  placeholder="Share whatever is on your mind..."
+                  className="flex-1 px-4 py-3 rounded-2xl bg-[#FAF9FC] border border-[#ECE8F2] text-sm text-[#2A2630] placeholder:text-[#9A94A6] focus:outline-none focus:border-[#8E7CC3]"
+                />
+                <button
+                  type="submit"
+                  disabled={!chatInput.trim() || isAiTyping}
+                  className="p-3.5 rounded-2xl bg-[#6B5B95] hover:bg-[#594A80] disabled:opacity-40 text-white transition-colors"
+                  aria-label="Send message"
+                >
+                  <Send className="w-4 h-4" />
+                </button>
+              </form>
+            </div>
+          )}
+
+          {/* ================= TAB 3: DIGITAL JOURNAL ================= */}
+          {activeTab === 'journal' && (
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+              {/* Left: Past Entries List */}
+              <div className="lg:col-span-4 space-y-4">
+                <div className="glass-card rounded-3xl p-5">
+                  <div className="flex items-center justify-between mb-4">
+                    <div>
+                      <h2 className="font-editorial text-2xl text-[#2A2630]">Your Reflections</h2>
+                      <p className="text-xs text-[#686273]">{journalEntries.length} private entries</p>
+                    </div>
+                    <button
+                      onClick={() => setActiveEntryId(null)}
+                      className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-[#6B5B95] text-white text-xs font-medium hover:bg-[#594A80] transition-colors"
+                    >
+                      <Plus className="w-3.5 h-3.5" />
+                      <span>New Entry</span>
+                    </button>
+                  </div>
+
+                  <div className="space-y-2.5 max-h-[500px] overflow-y-auto pr-1">
+                    {journalEntries.map((entry) => {
+                      const moodObj = MOOD_OPTIONS.find((m) => m.id === entry.moodId) || MOOD_OPTIONS[2];
+                      const isSelected = activeEntryId === entry.id;
+                      return (
+                        <div
+                          key={entry.id}
+                          onClick={() => setActiveEntryId(entry.id)}
+                          className={`p-3.5 rounded-2xl border cursor-pointer transition-all ${
+                            isSelected
+                              ? 'bg-[#F3EFFB] border-[#8E7CC3]'
+                              : 'bg-white/80 border-[#ECE8F2] hover:bg-white'
+                          }`}
+                        >
+                          <div className="flex items-center justify-between gap-2 mb-1">
+                            <span
+                              className="text-[10px] font-semibold px-2 py-0.5 rounded-full"
+                              style={{ backgroundColor: moodObj.bg, color: moodObj.color }}
+                            >
+                              {moodObj.label}
+                            </span>
+                            <span className="text-[11px] text-[#8E8799]">{entry.date}</span>
+                          </div>
+                          <h4 className="text-sm font-semibold text-[#2A2630] line-clamp-1">
+                            {entry.title}
+                          </h4>
+                          <p className="text-xs text-[#686273] line-clamp-2 mt-1">
+                            {entry.content}
+                          </p>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+
+              {/* Right: Distraction-Free Writing Canvas OR Entry Reader */}
+              <div className="lg:col-span-8">
+                {activeJournalEntry ? (
+                  <div className="glass-card rounded-3xl p-6 sm:p-8 space-y-5">
+                    <div className="flex items-center justify-between border-b border-[#ECE8F2] pb-4">
+                      <div>
+                        <span className="text-xs text-[#686273]">{activeJournalEntry.date}</span>
+                        <h3 className="font-editorial text-3xl text-[#2A2630] mt-1">
+                          {activeJournalEntry.title}
+                        </h3>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <button
+                          onClick={() => setActiveEntryId(null)}
+                          className="px-3.5 py-2 rounded-xl bg-[#F2EEFB] text-[#5B4B8A] text-xs font-semibold hover:bg-[#E6E0F8] transition-colors"
+                        >
+                          Write New
+                        </button>
+                        <button
+                          onClick={() => handleDeleteJournal(activeJournalEntry.id)}
+                          className="p-2 rounded-xl text-[#8E8799] hover:text-rose-600 hover:bg-rose-50 transition-colors"
+                          title="Delete entry"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
+                    </div>
+
+                    {activeJournalEntry.prompt && (
+                      <div className="p-4 rounded-2xl bg-[#FAF8FD] border border-[#ECE8F2] text-xs text-[#686273] italic">
+                        Prompt: “{activeJournalEntry.prompt}”
+                      </div>
+                    )}
+
+                    <p className="text-base text-[#2A2630] leading-relaxed whitespace-pre-line font-normal">
+                      {activeJournalEntry.content}
+                    </p>
+                  </div>
+                ) : (
+                  <form onSubmit={handleSaveJournal} className="glass-card rounded-3xl p-6 sm:p-8 space-y-5">
+                    {/* Guided Reflection Prompt Box */}
+                    <div className="p-4 rounded-2xl bg-gradient-to-r from-[#F6F2FC] to-[#FDF4F6] border border-[#ECE8F2] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                      <div>
+                        <span className="text-[10px] uppercase tracking-wider font-semibold text-[#6B5B95]">
+                          Guided Reflection Prompt
+                        </span>
+                        <p className="font-editorial text-xl text-[#2A2630] mt-0.5 leading-snug">
+                          “{JOURNAL_PROMPTS[promptIdx]}”
+                        </p>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => setPromptIdx((prev) => (prev + 1) % JOURNAL_PROMPTS.length)}
+                        className="self-start sm:self-center inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-white border border-[#ECE8F2] text-xs font-medium text-[#686273] hover:text-[#2A2630] shrink-0"
+                      >
+                        <RefreshCw className="w-3.5 h-3.5" />
+                        <span>Shuffle</span>
+                      </button>
+                    </div>
+
+                    {/* Title & Mood Tag */}
+                    <div className="flex flex-col sm:flex-row gap-3">
+                      <input
+                        type="text"
+                        value={journalTitle}
+                        onChange={(e) => setJournalTitle(e.target.value)}
+                        placeholder="Give this reflection a title..."
+                        className="flex-1 px-4 py-3 rounded-2xl bg-[#FAF9FC] border border-[#ECE8F2] font-editorial text-2xl text-[#2A2630] placeholder:text-[#9A94A6] focus:outline-none focus:border-[#8E7CC3]"
+                      />
+                      <select
+                        value={journalMoodId}
+                        onChange={(e) => setJournalMoodId(e.target.value)}
+                        className="px-4 py-3 rounded-2xl bg-[#FAF9FC] border border-[#ECE8F2] text-sm text-[#2A2630] focus:outline-none focus:border-[#8E7CC3]"
+                      >
+                        {MOOD_OPTIONS.map((m) => (
+                          <option key={m.id} value={m.id}>
+                            Mood: {m.label}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+
+                    {/* Main Writing Textarea */}
+                    <textarea
+                      rows={9}
+                      value={journalBody}
+                      onChange={(e) => setJournalBody(e.target.value)}
+                      placeholder="Write freely here. No grammar rules, no audience—just an honest space to untangle your thoughts..."
+                      className="w-full p-5 rounded-2xl bg-[#FAF9FC] border border-[#ECE8F2] text-sm sm:text-base text-[#2A2630] leading-relaxed placeholder:text-[#9A94A6] focus:outline-none focus:border-[#8E7CC3] resize-none"
+                    />
+
+                    <div className="flex items-center justify-between pt-1">
+                      <span className="text-xs text-[#8E8799]">
+                        {journalBody.trim().split(/\s+/).filter(Boolean).length} words
+                      </span>
+                      <button
+                        type="submit"
+                        disabled={!journalBody.trim()}
+                        className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-[#6B5B95] hover:bg-[#594A80] disabled:opacity-40 text-white text-sm font-medium transition-colors shadow-xs"
+                      >
+                        <Check className="w-4 h-4" />
+                        <span>Save Reflection</span>
+                      </button>
+                    </div>
+                  </form>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* ================= TAB 5: PROFILE & SANCTUARY SETTINGS ================= */}
+          {activeTab === 'profile' && (
+            <div className="space-y-6">
+              {/* Profile Header Banner */}
+              <div className="glass-card rounded-3xl p-6 sm:p-8 relative overflow-hidden">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-5">
+                  <div className="flex items-center gap-4 sm:gap-5">
+                    <div
+                      className={`w-16 h-16 sm:w-20 sm:h-20 rounded-3xl bg-gradient-to-br ${activeAura.gradient} flex items-center justify-center text-white font-editorial text-4xl shadow-md shrink-0`}
+                    >
+                      {userProfile.name[0]?.toUpperCase()}
+                    </div>
+                    <div>
+                      <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#F2EEFB] text-[#6B5B95] text-[11px] font-semibold mb-1.5">
+                        <Sparkle className="w-3 h-3" />
+                        <span>{activeAura.name} Aura</span>
+                      </div>
+                      <h2 className="font-editorial text-3xl sm:text-4xl text-[#2A2630] leading-none">
+                        {userProfile.name}
+                      </h2>
+                      <p className="text-xs sm:text-sm text-[#686273] mt-1.5">
+                        {userProfile.lifeStage} · Member since {userProfile.createdAt}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-wrap gap-2.5">
+                    {!isEditingProfile && (
+                      <button
+                        onClick={startEditingProfile}
+                        className="inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-[#6B5B95] hover:bg-[#594A80] text-white text-xs font-medium transition-colors"
+                      >
+                        <Edit3 className="w-3.5 h-3.5" />
+                        <span>Edit Profile</span>
+                      </button>
+                    )}
+                    <button
+                      onClick={() => setShowResetConfirmModal(true)}
+                      className="inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-white hover:bg-rose-50 border border-[#ECE8F2] text-xs font-medium text-[#8E4B5C] transition-colors"
+                    >
+                      <LogOut className="w-3.5 h-3.5" />
+                      <span>Switch / Reset Profile</span>
+                    </button>
+                  </div>
+                </div>
+
+                {/* Wellness Stats Row */}
+                <div className="grid grid-cols-3 gap-3 sm:gap-4 mt-7 pt-6 border-t border-[#ECE8F2]">
+                  <div className="p-3.5 sm:p-4 rounded-2xl bg-[#FAF8FD] border border-[#ECE8F2]">
+                    <p className="text-[11px] uppercase tracking-wider text-[#686273]">Mood Check-ins</p>
+                    <p className="font-editorial text-2xl sm:text-3xl text-[#2A2630] mt-1">
+                      {moodHistory.length}
+                    </p>
+                  </div>
+                  <div className="p-3.5 sm:p-4 rounded-2xl bg-[#FDF5F7] border border-[#ECE8F2]">
+                    <p className="text-[11px] uppercase tracking-wider text-[#686273]">Journal Entries</p>
+                    <p className="font-editorial text-2xl sm:text-3xl text-[#2A2630] mt-1">
+                      {journalEntries.length}
+                    </p>
+                  </div>
+                  <div className="p-3.5 sm:p-4 rounded-2xl bg-[#F4F7F5] border border-[#ECE8F2]">
+                    <p className="text-[11px] uppercase tracking-wider text-[#686273]">Daily Rituals</p>
+                    <p className="font-editorial text-2xl sm:text-3xl text-[#2A2630] mt-1">
+                      {completedHabitsCount}/{habits.length}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Edit Profile Form OR Active Intentions View */}
+              {isEditingProfile ? (
+                <form onSubmit={handleSaveEditedProfile} className="glass-card rounded-3xl p-6 sm:p-8 space-y-5">
+                  <div className="flex items-center justify-between border-b border-[#ECE8F2] pb-3">
+                    <h3 className="font-editorial text-2xl text-[#2A2630]">Edit Sanctuary Preferences</h3>
+                    <button
+                      type="button"
+                      onClick={() => setIsEditingProfile(false)}
+                      className="text-xs text-[#686273] hover:text-[#2A2630]"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-xs font-semibold text-[#544E5E] mb-1.5">
+                        Preferred Name
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        value={formName}
+                        onChange={(e) => setFormName(e.target.value)}
+                        className="w-full px-4 py-2.5 rounded-xl bg-[#FAF9FC] border border-[#ECE8F2] text-sm text-[#2A2630] focus:outline-none focus:border-[#8E7CC3]"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold text-[#544E5E] mb-1.5">
+                        Life Stage
+                      </label>
+                      <select
+                        value={formLifeStage}
+                        onChange={(e) => setFormLifeStage(e.target.value)}
+                        className="w-full px-4 py-2.5 rounded-xl bg-[#FAF9FC] border border-[#ECE8F2] text-sm text-[#2A2630] focus:outline-none focus:border-[#8E7CC3]"
+                      >
+                        {LIFE_STAGES.map((stage) => (
+                          <option key={stage} value={stage}>
+                            {stage}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-semibold text-[#544E5E] mb-2">
+                      Sanctuary Aura Theme
+                    </label>
+                    <div className="grid grid-cols-2 sm:grid-cols-5 gap-2.5">
+                      {AURA_THEMES.map((aura) => (
+                        <button
+                          type="button"
+                          key={aura.id}
+                          onClick={() => setFormAuraId(aura.id)}
+                          className={`p-2.5 rounded-2xl border flex items-center gap-2.5 text-left ${
+                            formAuraId === aura.id
+                              ? 'border-[#8E7CC3] bg-[#F3EFFB]'
+                              : 'border-[#ECE8F2] bg-white'
+                          }`}
+                        >
+                          <div className={`w-6 h-6 rounded-full bg-gradient-to-br ${aura.gradient} shrink-0`} />
+                          <span className="text-xs font-medium text-[#2A2630] truncate">{aura.name}</span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-semibold text-[#544E5E] mb-2">
+                      Wellness Intentions
+                    </label>
+                    <div className="flex flex-wrap gap-2">
+                      {WELLNESS_INTENTIONS.map((item) => {
+                        const active = formIntentions.includes(item);
+                        return (
+                          <button
+                            type="button"
+                            key={item}
+                            onClick={() => toggleFormIntention(item)}
+                            className={`px-3.5 py-2 rounded-xl border text-xs font-medium ${
+                              active
+                                ? 'bg-[#E6E0F8] border-[#8E7CC3] text-[#4A3B75]'
+                                : 'bg-white border-[#ECE8F2] text-[#544E5E]'
+                            }`}
+                          >
+                            {item}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-semibold text-[#544E5E] mb-2">
+                      AI Companion Tone
+                    </label>
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                      {COMPANION_TONES.map((tone) => (
+                        <button
+                          type="button"
+                          key={tone.id}
+                          onClick={() => setFormToneId(tone.id)}
+                          className={`p-3 rounded-2xl border text-left ${
+                            formToneId === tone.id
+                              ? 'bg-[#FDF2F5] border-[#D48A98]'
+                              : 'bg-white border-[#ECE8F2]'
+                          }`}
+                        >
+                          <p className="text-xs font-semibold text-[#2A2630]">{tone.label}</p>
+                          <p className="text-[11px] text-[#686273] mt-0.5">{tone.desc}</p>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="flex justify-end gap-2.5 pt-2">
+                    <button
+                      type="submit"
+                      className="px-6 py-2.5 rounded-2xl bg-[#6B5B95] hover:bg-[#594A80] text-white text-xs font-semibold transition-colors"
+                    >
+                      Save Changes
+                    </button>
+                  </div>
+                </form>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="glass-card rounded-3xl p-6">
+                    <div className="flex items-center gap-2 text-[#6B5B95] text-xs font-semibold uppercase tracking-wider mb-3">
+                      <Award className="w-4 h-4" />
+                      <span>Active Wellness Intentions</span>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      {userProfile.intentions?.map((intent, idx) => (
+                        <span
+                          key={idx}
+                          className="px-3.5 py-2 rounded-2xl bg-[#F4F0FC] border border-[#E6E0F8] text-xs font-medium text-[#4A3B75]"
+                        >
+                          {intent}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="glass-card rounded-3xl p-6">
+                    <div className="flex items-center gap-2 text-[#9E5A6B] text-xs font-semibold uppercase tracking-wider mb-3">
+                      <MessageCircleHeart className="w-4 h-4" />
+                      <span>AI Companion Calibration</span>
+                    </div>
+                    <p className="text-sm font-semibold text-[#2A2630]">{userProfile.toneLabel}</p>
+                    <p className="text-xs text-[#686273] mt-1 leading-relaxed">
+                      Your companion adapts its reflections to your life stage ({userProfile.lifeStage}) and keeps your conversations private and non-judgmental.
+                    </p>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      </main>
+
+      {/* Mobile Bottom Navigation Bar */}
+      <nav className="md:hidden fixed bottom-0 inset-x-0 z-30 bg-white/95 backdrop-blur-md border-t border-[#ECE8F2] px-2 py-2 flex justify-around">
+        {navItems.map((item) => {
+          const Icon = item.icon;
+          const isActive = activeTab === item.id;
+          return (
+            <button
+              key={item.id}
+              onClick={() => setActiveTab(item.id)}
+              className={`flex flex-col items-center gap-1 px-3 py-1.5 rounded-xl text-[11px] font-medium transition-colors ${
+                isActive ? 'text-[#6B5B95] bg-[#F3EFFB]' : 'text-[#686273]'
+              }`}
+            >
+              <Icon className="w-4.5 h-4.5" />
+              <span>{item.label}</span>
+            </button>
+          );
+        })}
+      </nav>
+
+      {/* Safety, Ethics & Crisis Helpline Modal */}
+      {showSafetyModal && (
+        <div className="fixed inset-0 z-50 bg-[#2A2630]/40 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-7 border border-[#ECE8F2] shadow-2xl space-y-4">
+            <div className="flex items-start justify-between">
+              <div className="flex items-center gap-2.5">
+                <div className="w-9 h-9 rounded-xl bg-[#F9E8EC] text-[#9E5A6B] flex items-center justify-center">
+                  <Heart className="w-4.5 h-4.5" />
+                </div>
+                <div>
+                  <h3 className="font-editorial text-2xl text-[#2A2630]">
+                    You Don't Have to Carry It Alone
+                  </h3>
+                  <p className="text-xs text-[#686273]">Safety & Support Resources</p>
+                </div>
+              </div>
+              <button
+                onClick={() => setShowSafetyModal(false)}
+                className="p-1.5 rounded-xl text-[#686273] hover:bg-[#FAF9FC]"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <p className="text-xs sm:text-sm text-[#544E5E] leading-relaxed">
+              Mindspace is designed for everyday reflection, self-care, and emotional clarity. It is not a medical service or emergency substitute. If you are feeling overwhelmed, unsafe, or in crisis, please reach out to free, confidential human support:
+            </p>
