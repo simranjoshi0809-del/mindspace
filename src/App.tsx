@@ -1998,3 +1998,61 @@ export default function App() {
             <p className="text-xs sm:text-sm text-[#544E5E] leading-relaxed">
               Mindspace is designed for everyday reflection, self-care, and emotional clarity. It is not a medical service or emergency substitute. If you are feeling overwhelmed, unsafe, or in crisis, please reach out to free, confidential human support:
             </p>
+
+            <div className="space-y-2.5 text-xs">
+              <div className="p-3.5 rounded-2xl bg-[#FAF8FD] border border-[#ECE8F2]">
+                <p className="font-semibold text-[#2A2630]">India — Tele-MANAS (24/7 Free Mental Health Support)</p>
+                <p className="text-[#686273] mt-0.5">Call <strong>14416</strong> or <strong>1800-891-4416</strong> · Vandrevala Foundation: <strong>+91 9999 666 555</strong></p>
+              </div>
+              <div className="p-3.5 rounded-2xl bg-[#FAF8FD] border border-[#ECE8F2]">
+                <p className="font-semibold text-[#2A2630]">US & Canada — Suicide & Crisis Lifeline</p>
+                <p className="text-[#686273] mt-0.5">Call or text <strong>988</strong> (Free, confidential, 24/7)</p>
+              </div>
+              <div className="p-3.5 rounded-2xl bg-[#FAF8FD] border border-[#ECE8F2]">
+                <p className="font-semibold text-[#2A2630]">International & Campus Support</p>
+                <p className="text-[#686273] mt-0.5">Visit <strong>findahelpline.com</strong> or contact your university student counseling center.</p>
+              </div>
+            </div>
+
+            <div className="pt-2 flex justify-end">
+              <button
+                onClick={() => setShowSafetyModal(false)}
+                className="px-5 py-2.5 rounded-xl bg-[#2A2630] text-white text-xs font-medium hover:bg-[#3F3947]"
+              >
+                Return to Mindspace
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Switch / Reset Profile Confirmation Modal */}
+      {showResetConfirmModal && (
+        <div className="fixed inset-0 z-50 bg-[#2A2630]/40 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl max-w-md w-full p-6 border border-[#ECE8F2] shadow-2xl space-y-4">
+            <h3 className="font-editorial text-2xl text-[#2A2630]">
+              Switch or Reset Sanctuary Profile?
+            </h3>
+            <p className="text-xs sm:text-sm text-[#544E5E] leading-relaxed">
+              This will clear the current local profile, mood logs, and journal entries on this browser and return you to the onboarding screen to create a fresh profile.
+            </p>
+            <div className="flex justify-end gap-2.5 pt-2">
+              <button
+                onClick={() => setShowResetConfirmModal(false)}
+                className="px-4 py-2 rounded-xl bg-[#FAF9FC] border border-[#ECE8F2] text-xs font-medium text-[#544E5E]"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleResetSanctuary}
+                className="px-4 py-2 rounded-xl bg-[#9E5A6B] hover:bg-[#864858] text-white text-xs font-semibold"
+              >
+                Reset & Create New Profile
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
